@@ -10,7 +10,7 @@ ISBNdb_key = os.getenv("ISBNdb_key")
 
 # Define a base class to fetch book details
 class BookDetails:
-    def __init__(self, title): #need to link registered accounts to each instance of a book object
+    def __init__(self, title): # Need to link registered accounts to each instance of a book object
         self.title = title
         # Fetch book details using the get_book_details method
         self.author_name, self.edition, self.image_url, self.published_date = self.get_book_details()
