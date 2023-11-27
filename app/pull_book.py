@@ -28,6 +28,7 @@ def get_book_details(title):
             edition = book.get('edition', 'Edition not available')
             image_url = book.get('image', 'Image not available')
             published_date = book.get('date_published', 'Publish date not available')
+            
 
             return author, edition, image_url, published_date
         else:
@@ -36,7 +37,12 @@ def get_book_details(title):
         return "Failed to retrieve data from ISBNdb.", None, None, None
 
 # Accept user input
+
+
+
+
 book_title = input("Enter a book title: ")
+
 author_name,  edition, image_url, published_date = get_book_details(book_title)
 
 print(f"Author Name: {author_name}")
