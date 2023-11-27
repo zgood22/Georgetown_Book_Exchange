@@ -1,17 +1,14 @@
 # this is the "web_app/__init__.py" file...
-
-from flask import Flask
+from flask import Flask, Blueprint
 
 from web_app.routes import register_routes
 
-#from web_app.routes.book_routes import book_routes
-#from web_app.routes.weather_routes import weather_routes
+
+register_routes = Blueprint("register", __name__) #enures register_routes is correctly defined and imported 
 
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(register_routes)
-    #app.register_blueprint(book_routes)
-    #app.register_blueprint(weather_routes)
     return app
 
 if __name__ == "__main__":
