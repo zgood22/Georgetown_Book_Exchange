@@ -1,30 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to the Georgetown Book Exchange!</title>
-</head>
-<body>
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "home" %}
 
-    <h1>Welcome to the Georgetown Book Exhange!</h1>
+{% block content %}
 
-    <p>This is where you can upload, exchange, and buy books from your Georgetown peers!</p>
 
-    <ul>
-        <!-- You can use Jinja templating to dynamically display content from your Flask routes -->
-        {% for news_item in latest_news %}
-            <li>{{ news_item }}</li>
-        {% endfor %}
-    </ul>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Georgetown Book Exchange</title>
+    </head>
+    <body>
+    
+        <h1>Welcome to the Georgetown Book Exchange!</h1>
+    
+        <p>This is where you can upload, exchange, and buy books from your Georgetown peers!</p>
+    
+        <!-- Add a button to navigate to the book_form page -->
+        <a href="{{ url_for('book_routes.book_form') }}"><button>Go to Book Form</button></a>
+    
+        <ul>
+            <!-- You can use Jinja templating to dynamically display content from your Flask routes -->
+            {% for news_item in latest_news %}
+                <li>{{ news_item }}</li>
+            {% endfor %}
+        </ul>
 
-    <h2>Featured Books:</h2>
-    <ul>
-        <!-- You can use Jinja templating to dynamically display content from your Flask routes -->
-        {% for book in featured_books %}
-            <li>{{ book.title }} by {{ book.author }}</li>
-        {% endfor %}
-    </ul>
+        <h2>Featured Books:</h2>
+        <ul>
+            <!-- You can use Jinja templating to dynamically display content from your Flask routes -->
+            {% for book in featured_books %}
+                <li>{{ book.title }} by {{ book.author }}</li>
+            {% endfor %}
+        </ul>
 
-</body>
-</html>
+    </body>
+    </html>
+
+{% endblock %}
