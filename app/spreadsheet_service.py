@@ -126,7 +126,7 @@ class SpreadsheetService:
 
 
     def create_records(self, sheet_name:str, new_records:list):
-        model_class = {"products": Product, "orders": Order}[sheet_name]
+        model_class = {"products": Product, "orders": Order, "books": Book}[sheet_name]
 
         sheet, records = self.get_records(sheet_name)
         next_row_number = len(records) + 2 # plus headers plus one
@@ -186,20 +186,43 @@ class Order:
         return [self.id, self.user_email, self.product_id, self.product_name, self.product_price, str(self.created_at)]
 
 
+class Book:
+    def __init__(self, attrs):
+        self.id = attrs.get("id")
+        self.title = attrs.get("title")
+        self.author = attrs.get("author")
+        self.edition = attrs.get("edition")
+        self.image_url = attrs.get("image_url")
+        self.published_date = attrs.get("published_date")
+        self.isbn = attrs.get("isbn")
+
+
+    @property
+    def to_row(self):
+        return [self.id, self.title, self.author, self.edition, self.image_url, self.published_date, self.isbn]
+
+
 if __name__ == "__main__":
 
     ss = SpreadsheetService()
 
-    DEFAULT_PRODUCTS = [
-                {'id': 1, 'name': 'Strawberries', 'description': 'Juicy organic strawberries.', 'price': 4.99, 'url': 'https://picsum.photos/id/1080/360/200'},
-                {'id': 2, 'name': 'Cup of Tea', 'description': 'An individually-prepared tea or coffee of choice.', 'price': 3.49, 'url': 'https://picsum.photos/id/225/360/200'},
-                {'id': 3, 'name': 'Textbook', 'description': 'It has all the answers.', 'price': 129.99, 'url': 'https://picsum.photos/id/24/360/200'}
+    DEFAULT_BOOKS = [
+                { 
+                 'title': 'Strawberries', 
+                 'author': 'Juicy organic strawberries.', 
+                 'edition': 4.99, 
+                 'image_url': 'https://picsum.photos/id/1080/360/200', 
+                 'published_date': 2000, 
+                 'isbn': '123445567'}
             ]
-    ss.create_products(DEFAULT_PRODUCTS)
+    #ss.create_products(DEFAULT_BOOKS)
 
-    ss.seed_products()
+    ss.create_records("books", DEFAULT_BOOKS)
 
-    sheet, records = ss.get_records("products")
+    #ss.seed_products()
+
+    #sheet, records = ss.get_records("products")
+    sheet, records = ss.get_records("books") #reads records from sheet - in this case sheet books
 
     for record in records:
         print("-----")
