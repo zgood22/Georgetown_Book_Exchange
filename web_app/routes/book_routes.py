@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template
-from app.pull_book import get_book_details
+
 
 book_routes = Blueprint("book_routes", __name__)
 
