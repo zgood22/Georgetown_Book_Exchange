@@ -22,3 +22,11 @@ def submit_book():
     print(new_book)
     return new_book
     
+
+
+# Assuming you have an existing Blueprint named 'book_routes'
+# If not, replace 'book_routes' with your Blueprint name or app
+
+@book_routes.route('/new-listing')
+def new_listing():
+    return render_template('book_form.html')
