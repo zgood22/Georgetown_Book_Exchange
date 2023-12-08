@@ -40,7 +40,12 @@
                 <input type="text" class="form-control" id="edition" name="edition">
             </div>
         
-            <button type="submit" class="btn btn-primary">Submit</button>
+            
+
+            <button type="submit" class="btn btn-primary mb-3">
+                <a href="{{ url_for('book_routes.listing_search') }}" style="color: white; text-decoration: none;">Submit</a>
+            </button>
+            
         </form>
         
     </div>
