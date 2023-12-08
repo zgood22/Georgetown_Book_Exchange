@@ -19,7 +19,7 @@
             <h1>Enter Listing Details</h1>
         </header>
 
-        <form id="bookForm" action="/submit_book" method="post">
+        <form id="bookForm" action="/listing-search" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" class="form-control" id="title" name="title" required>
@@ -42,9 +42,7 @@
         
             
 
-            <button type="submit" class="btn btn-primary mb-3">
-                <a href="{{ url_for('book_routes.listing_search') }}" style="color: white; text-decoration: none;">Submit</a>
-            </button>
+            <button type="submit" class="btn btn-primary mb-3">Submit</button>
             
         </form>
         

@@ -11,6 +11,19 @@ book_routes = Blueprint("book_routes", __name__)
 def new_listing():
     return render_template('book_form.html')
 
-@book_routes.route('/listing-search')
+@book_routes.route('/listing-search', methods=["GET", "POST"])
 def listing_search():
-    return render_template('listing_search.html')
+    if request.method == "POST":
+        # for data sent via POST request, form inputs are in request.form:
+        request_data = dict(request.form)
+        print("FORM DATA:", request_data)
+    else:
+        # for data sent via GET request, url params are in request.args
+        request_data = dict(request.args)
+        print("URL PARAMS:", request_data)
+
+    author_fname = str(request_data.get("authorFirstName"))
+    author_lname = str(request_data.get("authorLastName"))
+    author_fullname = author_fname + " " + author_lname
+    book_title = str(request_data.get("title"))
+    return render_template('listing_search.html', author_fullname=author_fullname, book_title=book_title)
