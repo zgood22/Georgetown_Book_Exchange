@@ -1,35 +1,83 @@
-
 {% extends "bootstrap_5_layout.html" %}
 {% set active_page = "home" %}
 
 {% block content %}
 
-    <h1>Welcome to the Georgetown Book Market!</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Navbar content (search bar removed) -->
+</nav>
 
-    <p>This is where you can upload and buy books from your Georgetown peers!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2">
+      <!-- Sidebar with enhanced categories, account navigation, and search bar -->
+      <div class="list-group mb-3">
+        <button type="button" class="btn btn-primary mb-3">Account Page</button>
+        <button type="button" class="btn btn-primary mb-3">+ Create New Listing</button>
+      </div>
 
-    <!-- Button styled with the first color from the palette -->
-    <a href="{{ url_for('book_routes.book_form') }}">
-        <button style="background-color: #739eb5; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Go to Book Form</button>
-    </a>
+      <!-- Search Bar -->
+      <div class="mb-3">
+        <input type="text" class="form-control" placeholder="Search...">
+      </div>
 
-    <h2>Featured Books:</h2>
-    <div class="row">
-        {% for book in books %}
-            <div class="col">
-                <!-- Card styled with colors from the palette -->
-                <div class="card" style="width: 18rem; margin-bottom: 20px; background-color: #ebf0dc; border-color: #475365;">
-                    <!-- Image styling to ensure uniformity -->
-                    <img class="card-img-top" src="{{ book['image_url'] }}" alt="{{ book['title'] }} cover" style="height: 280px; object-fit: cover;">
-                    <div class="card-body" style="color: #475365;">
-                        <h5 class="card-title">{{ book['title'] }}</h5>
-                        <p class="card-text">Price: ${{ book['price'] }}</p>
-                        <!-- Add any additional information or buttons as needed -->
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+      <div class="list-group">
+        <a href="#" class="list-group-item list-group-item-action">Art & Photography</a>
+        <a href="#" class="list-group-item list-group-item-action">Biographies</a>
+        <a href="#" class="list-group-item list-group-item-action">Business & Economics</a>
+        <a href="#" class="list-group-item list-group-item-action">Children's Books</a>
+        <a href="#" class="list-group-item list-group-item-action">Fiction</a>
+        <a href="#" class="list-group-item list-group-item-action">Health & Fitness</a>
+        <a href="#" class="list-group-item list-group-item-action">History</a>
+        <a href="#" class="list-group-item list-group-item-action">Non-Fiction</a>
+        <a href="#" class="list-group-item list-group-item-action">Science & Technology</a>
+        <a href="#" class="list-group-item list-group-item-action">Textbooks</a>
+        <a href="#" class="list-group-item list-group-item-action">Travel</a>
+        <!-- More categories -->
+      </div>
     </div>
+    <div class="col-md-10">
+      <div class="row">
+        <div class="col-12">
+          <!-- Login Fields -->
+          <form class="mb-3 d-flex align-items-end gap-2">
+            <div class="form-group">
+              <label for="emailInput" class="form-label">Email:</label>
+              <input type="email" class="form-control form-control-sm" id="emailInput">
+            </div>
+            <div class="form-group">
+              <label for="passwordInput" class="form-label">Password:</label>
+              <input type="password" class="form-control form-control-sm" id="passwordInput">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Log In</button>
+          </form>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for book in books %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="{{ book['image_url'] }}" class="card-img-top" alt="{{ book['title'] }} cover">
+            <div class="card-body">
+              <h5 class="card-title">{{ book['title'] }}</h5>
+              <p class="card-text">Price: ${{ book['price'] }}</p>
+              <p class="card-text">Owner: {{ book['owner_email_address'] }}</p>
+              <!-- Add any additional information or buttons as needed -->
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
