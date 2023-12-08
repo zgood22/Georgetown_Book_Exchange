@@ -8,21 +8,23 @@
 
     <p>This is where you can upload and buy books from your Georgetown peers!</p>
 
-    <!-- Add a button to navigate to the book_form page -->
-    <a href="{{ url_for('book_routes.book_form') }}"><button>Go to Book Form</button></a>
+    <!-- Button styled with the first color from the palette -->
+    <a href="{{ url_for('book_routes.book_form') }}">
+        <button style="background-color: #739eb5; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Go to Book Form</button>
+    </a>
 
     <h2>Featured Books:</h2>
     <div class="row">
         {% for book in books %}
             <div class="col">
-                <div class="card" style="width: 18rem; margin-bottom: 20px;">
-                    <img class="card-img-top" src="{{ book['image_url'] }}" alt="{{ book['title'] }} cover" style="max-width: 100%;">
-                    <div class="card-body">
+                <!-- Card styled with colors from the palette -->
+                <div class="card" style="width: 18rem; margin-bottom: 20px; background-color: #ebf0dc; border-color: #475365;">
+                    <!-- Image styling to ensure uniformity -->
+                    <img class="card-img-top" src="{{ book['image_url'] }}" alt="{{ book['title'] }} cover" style="height: 280px; object-fit: cover;">
+                    <div class="card-body" style="color: #475365;">
                         <h5 class="card-title">{{ book['title'] }}</h5>
                         <p class="card-text">Price: ${{ book['price'] }}</p>
-
                         <!-- Add any additional information or buttons as needed -->
-
                     </div>
                 </div>
             </div>
@@ -30,3 +32,4 @@
     </div>
 
 {% endblock %}
+
