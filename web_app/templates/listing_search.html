@@ -2,8 +2,43 @@
 {% set active_page = "home" %}
 
 {% block content %}
-    <body> 
-    <header> {{author_fullname}} </header>
-    <h1> {{book_title}} </h1>
-    </body>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Details</title>
+    <style>
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .book {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 15px;
+            width: calc(25% - 20px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .book img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Details</h1>
+    <div class="book-container">
+        <!-- Book details will be inserted here -->
+        {% for book in book_details %}
+        <div class="book">
+            <h2>{{ book.title }}</h2>
+            <img src="{{ book.image_url }}" alt="Book Image">
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
 {% endblock %}

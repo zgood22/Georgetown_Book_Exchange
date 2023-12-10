@@ -1,4 +1,5 @@
 from flask import Blueprint, request, render_template
+from app.book_query import get_book_details
 
 
 book_routes = Blueprint("book_routes", __name__)
@@ -26,4 +27,5 @@ def listing_search():
     author_lname = str(request_data.get("authorLastName"))
     author_fullname = author_fname + " " + author_lname
     book_title = str(request_data.get("title"))
-    return render_template('listing_search.html', author_fullname=author_fullname, book_title=book_title)
+    book_results = get_book_details(book_title)
+    return render_template('listing_search.html', author_fullname=author_fullname, book_results=book_results)
