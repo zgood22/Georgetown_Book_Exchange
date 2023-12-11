@@ -5,6 +5,7 @@ from flask import Blueprint, request, render_template
 
 home_routes = Blueprint("home_routes", __name__)
 
+
 books = [
     {
         "image_url": "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJvb2slMjBjb3ZlcnN8ZW58MHx8MHx8fDA%3D",
@@ -81,27 +82,4 @@ def about():
     print("ABOUT...")
     #return "About Me"
     return render_template("about.html")
-
-@home_routes.route("/hello")
-def hello_world():
-    print("HELLO...")
-
-    # if the request contains url params, for example a request to "/hello?name=Harper"
-    # the request object's args property will hold the values in a dictionary-like structure
-    url_params = dict(request.args)
-    print("URL PARAMS:", url_params) #> can be empty like {} or full of params like {"name":"Harper"}
-
-    # get a specific key called "name" if available, otherwise use some specified default value
-    # see also: https://www.w3schools.com/python/ref_dictionary_get.asp
-    #try:
-    #    name = url_params["name"]
-    #except:
-    #    name= "World"
-    name = url_params.get("name") or "World"
-
-    message = f"Hello, {name}!"
-    #return message
-    return render_template("hello.html", message=message, x=5)
-
-
 
