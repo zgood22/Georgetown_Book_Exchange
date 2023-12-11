@@ -29,3 +29,14 @@ def listing_search():
     book_title = str(request_data.get("title"))
     book_results = get_book_details(book_title)
     return render_template('listing_search.html', author_fullname=author_fullname, book_results=book_results)
+
+@book_routes.route('/selected-book', methods=['POST'])
+def selected_book():
+    book_details = {
+        'title': request.form.get('title'),
+        'author': request.form.get('author'),
+        'published_date': request.form.get('published_date'),
+        'image_url': request.form.get('image_url')
+    }
+
+    return render_template('selected_book.html', book_details=book_details)
