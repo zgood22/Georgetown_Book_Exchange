@@ -1,4 +1,3 @@
-
 # adapted from:
 # ... https://developers.google.com/sheets/api/guides/authorizing
 # ... https://gspread.readthedocs.io/en/latest/oauth2.html
@@ -42,6 +41,14 @@ class SpreadsheetService:
         #self.products_sheet = None
         #self.orders_sheet = None
 
+    @property
+    def doc(self):
+        """note: this will make an API call each time, to get the new data"""
+        return self.client.open_by_key(self.document_id) #> <class 'gspread.models.Spreadsheet'>
+
+    def get_sheet(self, sheet_name):
+        return self.doc.worksheet(sheet_name)
+
     @staticmethod
     def generate_timestamp():
         return datetime.now(tz=timezone.utc)
@@ -54,17 +61,7 @@ class SpreadsheetService:
         date_format = "%Y-%m-%d %H:%M:%S.%f%z"
         return datetime.strptime(ts, date_format)
 
-    # READING DATA
-    # ... TODO: consider passing the sheet or the sheet name, and getting the sheet only if necessary
-
-    @property
-    def doc(self):
-        """note: this will make an API call each time, to get the new data"""
-        return self.client.open_by_key(self.document_id) #> <class 'gspread.models.Spreadsheet'>
-
-    def get_sheet(self, sheet_name):
-        return self.doc.worksheet(sheet_name)
-
+    
     def get_records(self, sheet_name):
         """Gets all records from a sheet,
             converts datetime columns back to Python datetime objects
@@ -78,58 +75,12 @@ class SpreadsheetService:
             if record.get("created_at"):
                 record["created_at"] = self.parse_timestamp(record["created_at"])
         return sheet, records
-
-    def destroy_all(self, sheet_name):
-        """Removes all records from a given sheet, except the header row."""
-        sheet, records = self.get_records(sheet_name)
-        # start on the second row, and delete one more than the number of records,
-        # ... to account for the header row
-        sheet.delete_rows(start_index=2, end_index=len(records)+1)
-
-    def get_products(self):
-        _, products = self.get_records("products")
-        return products
-
-    def get_orders(self):
-        _, orders = self.get_records("orders")
-        return records
-
-    def get_user_orders(self, user_email):
-        _, orders = self.get_records("orders")
-        return [order for order in orders if order["user_email"] == user_email]
-
-
-    # WRITING DATA
-
-    def seed_products(self):
-        sheet, products = self.get_records("products")
-        if not any(products):
-            DEFAULT_PRODUCTS = [
-                {'id': 1, 'name': 'Strawberries', 'description': 'Juicy organic strawberries.', 'price': 4.99, 'url': 'https://picsum.photos/id/1080/360/200'},
-                {'id': 2, 'name': 'Cup of Tea', 'description': 'An individually-prepared tea or coffee of choice.', 'price': 3.49, 'url': 'https://picsum.photos/id/225/360/200'},
-                {'id': 3, 'name': 'Textbook', 'description': 'It has all the answers.', 'price': 129.99, 'url': 'https://picsum.photos/id/24/360/200'}
-            ]
-            self.create_products(DEFAULT_PRODUCTS)
-
-    def create_products(self, new_products:list):
-        self.create_records("products", new_products)
-
-    def create_product(self, new_product:dict):
-        self.create_records("products", [new_product])
-
-    def create_orders(self, new_orders:list):
-        self.create_records("orders", new_orders)
-
-    def create_order(self, new_order:dict):
-        self.create_records("orders", [new_order])
-
-
-
-    def create_records(self, sheet_name:str, new_records:list):
+    
+    def create_records(self, sheet_name: str, new_record: dict):
         model_class = {"products": Product, "orders": Order, "books": Book}[sheet_name]
 
         sheet, records = self.get_records(sheet_name)
-        next_row_number = len(records) + 2 # plus headers plus one
+        next_row_number = len(records) + 2  # plus headers plus one
 
         # auto-increment integer identifier
         if any(records):
@@ -138,17 +89,22 @@ class SpreadsheetService:
         else:
             next_id = 1
 
-        new_rows = []
-        for new_record in new_records:
-            new_record["id"] = next_id
-            new_record["created_at"] = self.generate_timestamp()
-            new_row = model_class(new_record).to_row
-            new_rows.append(new_row)
+        # Create a new dictionary with the updated values
+        updated_record = {
+            "id": next_id,
+            "title": new_record["title"],
+            "author": new_record["author"],
+            "published_date": new_record["published_date"],
+            "image_url": new_record["image_url"],
+            "created_at": self.generate_timestamp(),
+        }
 
-            next_id += 1
+        new_row = model_class(updated_record).to_row
 
-        sheet.insert_rows(new_rows, row=next_row_number)
+        sheet.insert_rows([new_row], row=next_row_number)
 
+
+    
 
 
 
@@ -193,39 +149,12 @@ class Book:
         self.author = attrs.get("author")
         self.published_date = attrs.get("published_date")
         self.image_url = attrs.get("image_url")
+        self.created_at = attrs.get("create_at")
+        
         
         
 
 
     @property
     def to_row(self):
-        return [self.id, self.title, self.author, self.edition, self.image_url, self.published_date, self.isbn]
-
-
-if __name__ == "__main__":
-
-    ss = SpreadsheetService()
-
-    DEFAULT_BOOKS = [
-                { 
-                 'title': 'Strawberries', 
-                 'author': 'Juicy organic strawberries.', 
-                 'edition': 4.99, 
-                 'image_url': 'https://picsum.photos/id/1080/360/200', 
-                 'published_date': 2000, 
-                 'isbn': '123445567'}
-            ]
-    #ss.create_products(DEFAULT_BOOKS)
-
-    ss.create_records("books", DEFAULT_BOOKS)
-
-    #ss.seed_products()
-
-    #sheet, records = ss.get_records("products")
-    sheet, records = ss.get_records("books") #reads records from sheet - in this case sheet books
-
-    for record in records:
-        print("-----")
-        pprint(record)
-
-
+        return[self.id, self.title, self.author, self.published_date, self.image_url, self.created_at]

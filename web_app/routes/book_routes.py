@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template
 from app.book_query import get_book_details
+from app.ss import SpreadsheetService
 
 
 book_routes = Blueprint("book_routes", __name__)
@@ -28,7 +29,7 @@ def listing_search():
     author_fullname = author_fname + " " + author_lname
     book_title = str(request_data.get("title"))
     book_results = get_book_details(book_title)
-    return render_template('listing_search.html', author_fullname=author_fullname, book_results=book_results)
+    return render_template('listing_search.html', book_title=book_title, author_fullname=author_fullname, book_results=book_results)
 
 @book_routes.route('/selected-book', methods=['POST'])
 def selected_book():
@@ -38,5 +39,9 @@ def selected_book():
         'published_date': request.form.get('published_date'),
         'image_url': request.form.get('image_url')
     }
+   
 
+    ss = SpreadsheetService()
+    print("Book Details:", book_details)
+    ss.create_records("books", book_details)
     return render_template('selected_book.html', book_details=book_details)
