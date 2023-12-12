@@ -9,3 +9,12 @@ and then activated with
 ```sh
 conda activate book-x
 ```
+
+```sh
+pip install -r requirements.txt
+```
+
+To run the app:
+```sh
+FLASK_APP=web_app flask run
+```

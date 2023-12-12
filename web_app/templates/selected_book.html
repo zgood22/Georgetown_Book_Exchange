@@ -1,0 +1,33 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "home" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ book_details.title }}</title>
+    <style>
+        .book-details-container {
+            width: 60%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .book-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="book-details-container">
+        <h1>{{ book_details.title }}</h1>
+        <img class="book-image" src="{{ book_details.image_url }}" alt="{{ book_details.title }} Book Image">
+        <p><strong>Author:</strong> {{ book_details.author }}</p>
+        <p><strong>Published Date:</strong> {{ book_details.published_date }}</p>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,3 +1,7 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "home" %}
+
+{% block content %}
 
 
 <!DOCTYPE html>
@@ -6,32 +10,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Georgetown Book Exchange</title>
-    <!-- Include any additional CSS styles if needed -->
+    <!-- Keep the same stylesheet reference used in home.html -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Book Exchange</h1>
-    </header>
-    <form id="bookForm" action="/submit_book" method="post">
-        <h2>Submit a Book for Exchange</h2>
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
-        <button type="submit">Submit</button>
-    </form>
-    <div class="books">
-        <h2>Available Books</h2>
-        {% for book in books %}
-            <div class="book">
-                <h3>{{ book.title }}</h3>
-                <p><strong>Author:</strong> {{ book.author }}</p>
-                <p>{{ book.description }}</p>
+    <div class="container book-form-container">
+        <header>
+            <h1>Enter Listing Details</h1>
+        </header>
+
+        <form id="bookForm" action="/listing-search" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
-        {% endfor %}
+        
+            <div class="mb-3">
+                <label for="authorFirstName" class="form-label">Author First Name:</label>
+                <input type="text" class="form-control" id="authorFirstName" name="authorFirstName" required>
+            </div>
+        
+            <div class="mb-3">
+                <label for="authorLastName" class="form-label">Author Last Name:</label>
+                <input type="text" class="form-control" id="authorLastName" name="authorLastName" required>
+            </div>
+        
+            <div class="mb-3">
+                <label for="edition" class="form-label">Edition (optional):</label>
+                <input type="text" class="form-control" id="edition" name="edition">
+            </div>
+        
+            
+
+            <button type="submit" class="btn btn-primary mb-3">Submit</button>
+            
+        </form>
+        
     </div>
     <!-- Include any additional scripts if needed -->
 </body>
 </html>
+{% endblock %}

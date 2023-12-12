@@ -1,0 +1,26 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set active_page = "home" %}
+
+{% block content %}
+    <h1>Book Details</h1>
+    <div class="book-container">
+        {% for book in book_results %}
+            <div class="book">
+                <h2>{{ book.title }}</h2>
+                <img src="{{ book.image_url }}" alt="Book Image">
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+                
+                <!-- Form for posting book details -->
+                <form action="/selected-book" method="post">
+                    <input type="hidden" name="title" value="{{ book.title }}">
+                    <input type="hidden" name="author" value="{{ book.author }}">
+                    <input type="hidden" name="published_date" value="{{ book.published_date }}">
+                    <input type="hidden" name="image_url" value="{{ book.image_url }}">
+                    <button type="submit">Post Details</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

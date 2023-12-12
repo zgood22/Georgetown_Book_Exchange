@@ -1,0 +1,47 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #f7f7f7;
+    margin-bottom: 20px;
+}
+
+/* Sidebar Styling */
+.list-group-item-action {
+    border: none;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.list-group-item-action:hover {
+    background-color: #e9ecef;
+}
+
+/* Cards Styling */
+.card {
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Create Listing Button */
+.btn-primary {
+    background-color: #4267B2;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #365899;
+}
