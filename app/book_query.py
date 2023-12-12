@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 import requests
+from app.ss import SpreadsheetService
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -8,40 +9,47 @@ load_dotenv()
 # Get the ISBNdb API key from environment variables
 ISBNdb_key = os.getenv("ISBNdb_key")
 
-def get_book_details(title):
-        api_key = ISBNdb_key
-        url = f'https://api.isbndb.com/books/{title}'
-        headers = {'Authorization': ISBNdb_key}
+# Initialize SpreadsheetService
+ss = SpreadsheetService()
 
-        # Send a GET request to the ISBNdb API
-        response = requests.get(url, headers=headers)
-        
-        if response.status_code == 200:
-            data = response.json()
-            books = data.get('books', [])
-            
-            if books:
-                # Limit the results to top 8 books
-                top_books = books[:8]
+def get_book_details(title, condition=None, listPrice=None):
+    headers = {'Authorization': ISBNdb_key}
+    url = f'https://api.isbndb.com/books/{title}'
 
-                # Prepare the list of book details
-                book_details = []
-                for book in top_books:
-                    book_info = {
-                        'author': book.get('authors', 'Author not found'),
-                        'edition': book.get('edition', 'Edition not available'),
-                        'image_url': book.get('image', 'Image not available'),
-                        'published_date': book.get('date_published', 'Publish date not available')
-                    }
-                    book_details.append(book_info)
+    # Send a GET request to the ISBNdb API
+    response = requests.get(url, headers=headers)
 
-                return book_details
-            else:
-                return "No book found with that title."
+    if response.status_code == 200:
+        data = response.json()
+        books = data.get('books', [])
+
+        if books:
+            # Limit the results to top 30 books
+            top_books = books[:30]
+
+            # Prepare the list of book details
+            book_details = []
+            for book in top_books:
+                # Add condition and listPrice to book_info
+                book_info = {
+                    'title': book.get('title', 'Title not found'),
+                    'author': book.get('authors', 'Author not found'),
+                    'image_url': book.get('image', 'Image not available'),
+                    'published_date': book.get('date_published', 'Publish date not available'),
+                    'condition': condition,  # Now included in book_info
+                    'listPrice': listPrice   # Now included in book_info
+                }
+                
+                book_details.append(book_info)
+
+            return book_details
         else:
-            return "Failed to retrieve data from ISBNdb."
+            return "No book found with that title."
+    else:
+        return "Failed to retrieve data from ISBNdb."
 
+# The part below is correct, assuming it's meant for a simple CLI interaction
 if __name__ == '__main__':
-     book_search = input('Please enter the name of the book you are searching for: ')
-     book_details = get_book_details(book_search)
-     print(book_details[1])
+    book_search = input('Please enter the name of the book you are searching for: ')
+    book_details = get_book_details(book_search)
+    print(book_details[1])  # This will print the second book's details if there are at least two books

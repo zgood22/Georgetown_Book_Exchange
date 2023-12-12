@@ -22,9 +22,17 @@ body {
 }
 
 /* Cards Styling */
+
+
 .card {
-    transition: transform 0.2s;
-    cursor: pointer;
+    display: flex;
+    flex-direction: column; /* Set flex direction to column for equal height */
+    height: 100%;
+
+    background: linear-gradient(to bottom, #ffffff, #f7f7f7);
+    border: none; /* Optional: removes the border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        
 }
 
 .card:hover {
@@ -32,8 +40,8 @@ body {
 }
 
 .card-img-top {
-    height: 180px;
-    object-fit: cover;
+    height: 50px;
+    object-fit: contain;
 }
 
 /* Create Listing Button */
