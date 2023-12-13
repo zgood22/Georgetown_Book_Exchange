@@ -13,8 +13,8 @@ from web_app.routes.auth_routes import auth_routes
 
 SECRET_KEY = os.getenv("SECRET_KEY", default="super secret") # set this to something else on production!!!
 #Google Log-in
-CLIENT_ID=os.getenv('GOOGLE_CLIENT_ID'),
-client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
+CLIENT_ID=os.getenv('GOOGLE_CLIENT_ID1'),
+client_secret=os.getenv('GOOGLE_CLIENT_SECRET1'),
 
 def create_app():
     app = Flask(__name__)

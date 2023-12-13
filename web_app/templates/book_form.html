@@ -36,8 +36,20 @@
             </div>
         
             <div class="mb-3">
-                <label for="edition" class="form-label">Edition (optional):</label>
-                <input type="text" class="form-control" id="edition" name="edition">
+                <label for="condition" class="form-label">Condition:</label>
+                <select class="form-select" id="condition" name="condition">
+                    <option value="Excellent">Excellent</option>
+                    <option value="Great">Great</option>
+                    <option value="Good">Good</option>
+                    <option value="Bad">Bad</option>
+                    <option value="Terrible">Terrible</option>
+                </select>
+            </div>
+
+            <!-- Add a "List Price" field for numeric, positive, and currency formatted input -->
+            <div class="mb-3">
+                <label for="listPrice" class="form-label">List Price (USD):</label>
+                <input type="number" class="form-control" id="listPrice" name="listPrice" step="0.01" min="0" required>
             </div>
         
             
