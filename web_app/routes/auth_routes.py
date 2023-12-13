@@ -23,7 +23,7 @@ def google_login():
     print("GOOGLE OAUTH LOGIN...")
     oauth = current_app.config["OAUTH"]
     redirect_uri = url_for("auth_routes.google_oauth_callback", _external=True) # see corresponding route below
-    print(type(redirect_uri))
+    print(redirect_uri)
     return oauth.google.authorize_redirect(redirect_uri) # send the user to login with google, then hit the callback route
 
 @auth_routes.route("/auth/google/callback")
